@@ -1,3 +1,7 @@
+let { usersArray } = require('./data')
+
+
+
 // ***************************************************************************
 // Iteration 1 - `for...of` loop
 // ***************************************************************************
@@ -5,11 +9,15 @@
 const getFirstNames = arr => {
   const userFirstNames = [];
   for (let user of arr) {
-    // Your code goes here ...
+    userFirstNames.push(user.firstName)
   }
+
+  return userFirstNames;
+
 };
 
-getFirstNames(usersArray);
+
+getFirstNames(usersArray)
 // expected output:
 // [ 'Kirby', 'Tracie', 'Kendra', 'Kinney', 'Howard', 'Rachelle', 'Lizzie' ]
 
@@ -18,7 +26,13 @@ getFirstNames(usersArray);
 // ***************************************************************************
 
 const getFullNames = arr => {
-  // Your code goes here ...
+  const fullName = [];
+
+  for (let user of arr) {
+    fullName.push(`${user.firstName} ${user.lastName}`)
+  }
+
+  return fullName;
 };
 
 getFullNames(usersArray);
@@ -31,10 +45,22 @@ getFullNames(usersArray);
 // ***************************************************************************
 
 const getUsersCreditDetails = arr => {
-  // Your code goes here ...
+  
+const UsersCreditDetails = []
+
+for (let user of arr) {
+  
+const { firstName, lastName, balance} = user;
+  const userDetails = { firstName, lastName, balance }
+  UsersCreditDetails.push(userDetails)
+  
 };
 
-getUsersCreditDetails(usersArray);
+return UsersCreditDetails
+
+}
+
+ getUsersCreditDetails(usersArray);
 // expected output:
 // [ { firstName: 'Kirby', lastName: 'Doyle', balance: '$3,570.06' },
 // { firstName: 'Tracie', lastName: 'May', balance: '$1,547.73' },
@@ -49,7 +75,23 @@ getUsersCreditDetails(usersArray);
 // ***************************************************************************
 
 const genderView = users => {
-  // Your code goes here ...
+
+  const male = users.filter( (user) => {
+    if (user.gender === 'male'){
+      return true;
+    }
+  })
+
+  const female = users.filter( (user) => {
+    if (user.gender === 'female'){
+      return true;
+    }
+  })
+  
+  return {  
+    femaleUsers: getFullNames(female), 
+    maleUsers: getFullNames(male)
+  }
 };
 
 genderView(usersArray);
@@ -66,21 +108,61 @@ genderView(usersArray);
 const data = genderView(usersArray);
 
 const genderCount = data => {
-  // Your code goes here ...
+
+  const female = data.femaleUsers.length
+  const male = data.maleUsers.length
+
+  return `Female: ${female} 
+Male: ${male}`
 };
 
 genderCount(data);
+
 // expected output:
+
 // Female: 4
 // Male: 3
 
 // ***************************************************************************
 // Bonus - Iteration 6
 // ***************************************************************************
+const  userCredits = getUsersCreditDetails( usersArray );
 
 const promo20 = users => {
-  // Your code goes here ...
+
+  
+
+  for (let user of users){
+
+  
+    let userBalance = user.balance.split('')
+    userBalance.splice( userBalance.indexOf('$'), 1)
+    userBalance.splice( userBalance.indexOf(','), 1)
+    userBalance = Number(userBalance.join(''))
+
+    user.balance = userBalance
+
+    //console.log(userBalance)
+
+        if ( user.balance > 20000){
+          console.log(`Dear ${user.firstName}, since your balance is ${user.balance}, you are eligible to apply for this awesome credit card.`)
+        }
+  }
+  
 };
+
+//promo20(userCredits);
+
+
+// [ { firstName: 'Kirby', lastName: 'Doyle', balance: '$3,570.06' },
+// { firstName: 'Tracie', lastName: 'May', balance: '$1,547.73' },
+// { firstName: 'Kendra', lastName: 'Hines', balance: '$12,383.08' },
+// { firstName: 'Kinney', lastName: 'Howard', balance: '$3,207.06' },
+// { firstName: 'Howard', lastName: 'Gilmore', balance: '$21,307.75' },
+// { firstName: 'Rachelle', lastName: 'Schneider', balance: '$35,121.49' },
+// { firstName: 'Lizzie', lastName: 'Alford', balance: '$4,382.94' } ]
+
+
 
 // expected output:
 // Dear Howard, since your balance is $21,307.75, you are eligible to apply for this awesome credit card.
@@ -91,10 +173,16 @@ const promo20 = users => {
 // ***************************************************************************
 
 const addActive = users => {
-  // Your code goes here ...
+  for (let user of users){
+    if(user.isActive === true){
+      return user;
+    }
+    
+  }
+
 };
 
-addActive(usersArray);
+console.log(addActive(usersArray));
 // expected output:
 // [
 //    { firstName: 'Kirby',
